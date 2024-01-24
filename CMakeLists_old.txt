@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
+
+# Set your project name
+project(path-tracker-opengl)
+
+# Set C++ standards
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(_mygui_static_default OFF)
+option(MYGUI_STATIC "Link static build of Mygui into the binaries" ${_mygui_static_default})
+# Find required packages
+find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(MyGUI 3.4.2 REQUIRED)
+
+if(MYGUI_STATIC)
+    add_definitions(-DMYGUI_STATIC)
+endif (MYGUI_STATIC)
+
+# Include directories
+include_directories(
+    ${OPENGL_INCLUDE_DIR}
+    ${GLFW_INCLUDE_DIRS}
+    ${MYGUI_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/Libraries/include
+    source
+)
+
+# Automatically add all .h, .hpp, .c, and .cpp files in the "source" directory
+file(GLOB SOURCE_FILES "source/*.h" "source/*.hpp" "source/*.c" "source/*.cpp")
+
+# Define the executable
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+
+# Link libraries
+target_link_libraries(${PROJECT_NAME}
+    ${OPENGL_LIBRARIES}
+    glfw
+    ${MYGUI_LIBRARIES}
+    # Add any other libraries you need to link
+)
