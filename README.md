@@ -1,3 +1,8 @@
+# Compiling on Linux
+
+Either use build.sh or mkdir build && cd build && cmake .. && make -j$(nproc). Then copy images, scenes, shaders to build dir.
+
+ 
 # Path-tracer-using-OpenGL
 
 A path tracer made using OpenGL with decent UI. This path tracing works with non-polygon graphics, which means that all distance calculations are based on the position and direction of the ray.

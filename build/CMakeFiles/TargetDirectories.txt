@@ -1,0 +1,3 @@
+/home/jonas/Code2/C++/Path-tracer-using-OpenGL/build/CMakeFiles/path_tracer.dir
+/home/jonas/Code2/C++/Path-tracer-using-OpenGL/build/CMakeFiles/edit_cache.dir
+/home/jonas/Code2/C++/Path-tracer-using-OpenGL/build/CMakeFiles/rebuild_cache.dir
