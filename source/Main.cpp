@@ -118,7 +118,13 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		framesStill++;
-		if (mygui.isMouseControl) { camera.CheckForUpdate(framesStill); camera.Update(); }
+		//if (mygui.isMouseControl) { camera.CheckForUpdate(framesStill); camera.Update(); }
+		if (mygui.isMouseControl && glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
+		{
+			camera.CheckForUpdate(framesStill);
+			camera.Update();
+		}
+
 
 		updateRandomSeeds(rSeed1, rSeed2);
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -230,10 +236,27 @@ int main()
 		if (mygui.onConstantUpdate && !mygui.renderMode) framesStill = 0;
 		if (!mygui.addObjectName && !mygui.isSaveFile)
 		{
+			// If mouse is not over our UI, capture if clicked
+			if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS
+				&& !ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)
+				&& !ImGui::IsAnyItemHovered())
+			{
+				// Capture mouse
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			}
+
 			// change render mode
 			if (checkKey(GLFW_KEY_R, keyRlastFrame, window)) { framesStill = 0; mygui.renderMode = !mygui.renderMode; }
+
 			// check if the Escape button is pressed
-			if (checkKey(GLFW_KEY_ESCAPE, keyEscapelastFrame, window)) break;
+			//if (checkKey(GLFW_KEY_ESCAPE, keyEscapelastFrame, window)) break;
+
+			if (checkKey(GLFW_KEY_ESCAPE, keyEscapelastFrame, window)) {
+				// Release mouse
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				//break;
+			}
+
 			// change mouse control
 			if (checkKey(GLFW_KEY_E, keyElastFrame, window)) mygui.isMouseControl = !mygui.isMouseControl;
 			// hide gui
